@@ -29,7 +29,7 @@ let
   fetched = map fetch-file files;
   linkFiles = builtins.concatStringsSep "\n" (map
     (output: ''
-      mkdir -p $(dirname "$out/${output.relpath}")
+      mkdir -p "$(dirname "$out/${output.relpath}")"
       ln -s "${output.content}" "$out/${output.relpath}"
     '')
     fetched);
