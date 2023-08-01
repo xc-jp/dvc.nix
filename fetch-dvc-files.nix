@@ -18,7 +18,7 @@ builtins.mapAttrs
           name = lib.strings.sanitizeDerivationName out.path;
           value = fetched // {
             inherit dvc out;
-            path = dvc.dir-trail + "/${out.path}";
+            path = builtins.concatStringsSep "/" (dvc.dir-trail ++ [ "${out.path}" ]);
           };
         })
       dvc.dvc.outs or [ ];

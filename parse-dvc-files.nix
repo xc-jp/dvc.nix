@@ -19,10 +19,10 @@ let
               name = lib.strings.sanitizeDerivationName f;
               path = dir + "/${f}";
             };
-            dir-trail = lib.concatStringsSep "/" trail;
-            file-trail = lib.concatStringsSep "/" (trail ++ [ f ]);
-            drv-name = lib.strings.sanitizeDerivationName file-trail;
-            name = lib.strings.replaceStrings [ "." ] [ "-" ] (lib.strings.sanitizeDerivationName file-trail);
+            dir-trail = trail;
+            file-trail = trail ++ [ f ];
+            drv-name = lib.strings.sanitizeDerivationName (builtins.concatStringsSep "/" file-trail);
+            name = lib.strings.replaceStrings [ "." ] [ "-" ] drv-name;
           in
           {
             inherit name;
