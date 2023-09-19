@@ -12,6 +12,7 @@ builtins.mapAttrs
           fetched = fetch-dvc {
             inherit baseurl;
             inherit (out) md5;
+            hash = out.hash or null;
           };
         in
         {

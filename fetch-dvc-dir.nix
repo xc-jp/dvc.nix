@@ -2,26 +2,22 @@
 { baseurl
 , md5
 , name
+, hash ? null
 }:
 let
   dir-md5 = lib.removeSuffix ".dir" md5;
-  output =
-    let
-      prefix = builtins.substring 0 2 md5;
-      suffix = builtins.substring 2 (builtins.stringLength md5 - 2) md5;
-    in
-    fetch-md5-file {
-      url = "${baseurl}/${prefix}/${suffix}";
-      md5 = dir-md5;
-      inherit name;
-    };
+  output = fetch-dvc-file {
+    inherit baseurl name hash;
+    md5 = dir-md5;
+    extension = ".dir";
+  };
 
   files = builtins.fromJSON (builtins.readFile output);
   fetch-file = file: {
     relpath = file.relpath;
     md5 = file.md5;
     content = fetch-dvc-file {
-      inherit baseurl;
+      inherit baseurl hash;
       md5 = file.md5;
       name = file.md5;
     };
