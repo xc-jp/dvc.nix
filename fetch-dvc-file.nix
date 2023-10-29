@@ -10,6 +10,7 @@ let
   dvc3 = fetch-md5-file {
     url = "${baseurl}/files/${hash}/${prefix}/${suffix}${extension}";
     inherit md5 name;
+    hashAlgo = hash;
   };
 in
 if hash == null
