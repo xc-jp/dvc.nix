@@ -31,7 +31,7 @@
           inherit (final.dvc-nix) check-dvc-file check-dvc-dir;
         };
         check-dvc-files = final.callPackage ./check-dvc-files.nix {
-          inherit (final.dvc-nix) check-dvc check-dvc-files;
+          inherit (final.dvc-nix) check-dvc parse-dvc-files;
         };
       in
       {
