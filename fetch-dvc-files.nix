@@ -13,6 +13,7 @@ builtins.mapAttrs
             inherit baseurl;
             inherit (out) md5;
             hash = out.hash or null;
+            name = lib.strings.sanitizeDerivationName (builtins.concatStringsSep "-" (dvc.trail ++ [ out.path ]));
           };
         in
         {

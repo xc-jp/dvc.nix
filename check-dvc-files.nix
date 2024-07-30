@@ -12,6 +12,7 @@ builtins.mapAttrs
           checked = check-dvc {
             inherit baseurl;
             inherit (out) md5;
+            name = lib.strings.sanitizeDerivationName (builtins.concatStringsSep "-" (dvc.trail ++ [ out.path ]));
             hash = out.hash or null;
           };
         in
