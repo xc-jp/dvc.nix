@@ -20,6 +20,19 @@
         map-dvc-files = final.callPackage ./map-dvc-files.nix {
           inherit (final.dvc-nix) fetch-dvc-files;
         };
+        check-md5-file = final.callPackage ./check-md5-file.nix { };
+        check-dvc-file = final.callPackage ./check-dvc-file.nix {
+          inherit (final.dvc-nix) check-md5-file;
+        };
+        check-dvc-dir = final.callPackage ./check-dvc-dir.nix {
+          inherit (final.dvc-nix) check-dvc-file check-md5-file;
+        };
+        check-dvc = final.callPackage ./check-dvc.nix {
+          inherit (final.dvc-nix) check-dvc-file check-dvc-dir;
+        };
+        check-dvc-files = final.callPackage ./check-dvc-files.nix {
+          inherit (final.dvc-nix) check-dvc check-dvc-files;
+        };
       in
       {
         dvc-nix = {
@@ -31,6 +44,11 @@
             parse-dvc-files
             fetch-dvc-files
             map-dvc-files
+            check-dvc-file
+            check-dvc-dir
+            check-md5-file
+            check-dvc
+            check-dvc-files
             ;
         };
       };
