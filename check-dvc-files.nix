@@ -1,4 +1,4 @@
-{ lib, fetch-dvc, parse-dvc-files }:
+{ lib, check-dvc, parse-dvc-files }:
 { baseurl, src }:
 let
   parsed = parse-dvc-files src;
@@ -9,19 +9,16 @@ builtins.mapAttrs
     outs = map
       (out:
         let
-          fetched = fetch-dvc {
+          checked = check-dvc {
             inherit baseurl;
             inherit (out) md5;
-            hash = out.hash or null;
             name = lib.strings.sanitizeDerivationName (builtins.concatStringsSep "-" (dvc.trail ++ [ out.path ]));
+            hash = out.hash or null;
           };
         in
         {
           name = lib.strings.sanitizeDerivationName out.path;
-          value = fetched // {
-            inherit dvc out;
-            path = builtins.concatStringsSep "/" (dvc.dir-trail ++ [ "${out.path}" ]);
-          };
+          value = checked;
         })
       dvc.dvc.outs or [ ];
   in
